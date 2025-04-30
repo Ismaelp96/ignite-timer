@@ -18,7 +18,7 @@ html {
 
   body {
     background: ${(props) => props.theme['gray-900']};
-    color: #FFF;
+    color: ${({ theme }) => theme['gray-300']};
     -webkit-font-smoothing: antialiased;
   }
 
@@ -28,4 +28,8 @@ html {
     font-size: 1.6rem;
   }
 
+  :focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${({ theme }) => theme['gray-500']};
+  }
   `;

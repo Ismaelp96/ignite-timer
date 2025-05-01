@@ -30,6 +30,19 @@ html {
 
   :focus {
     outline: none;
-    box-shadow: 0 0 0 2px ${({ theme }) => theme['gray-500']};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme['green-500']};
+  }
+
+  button {
+    border: 0;
+    cursor: pointer;
+  }
+
+  input:-webkit-autofill {
+		box-shadow: 0 0 0px 1000px transparent inset;
+		-webkit-box-shadow: 0 0 0px 1000px transparent inset;
+		-webkit-text-fill-color: ${({ theme }) => theme['gray-100']};
+		transition: background-color 5000s ease-in-out 0s;
+	
   }
   `;

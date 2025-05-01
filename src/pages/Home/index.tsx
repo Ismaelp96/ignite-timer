@@ -4,18 +4,22 @@ import * as S from './styles';
 export function Home() {
 	return (
 		<S.HomeContainer>
-			<S.FormContainer>
-				<S.Title>
+			<form>
+				<S.TitleContainer>
 					<label htmlFor='task'>Vou trabalhar em</label>
-					<input
+					<S.TaskInput
 						type='text'
 						id='task'
 						placeholder='Dê um nome para o seu projeto'
 					/>
 					<label htmlFor='minutesAmount'>durante</label>
-					<input type='number' id='minutesAmount' placeholder='- 00 +' />
+					<S.TaskMinutesAmountInput
+						type='number'
+						id='minutesAmount'
+						placeholder='- 00 +'
+					/>
 					<span>minutos</span>
-				</S.Title>
+				</S.TitleContainer>
 				<S.CountDownContainer>
 					<span>0</span>
 					<span>0</span>
@@ -23,11 +27,11 @@ export function Home() {
 					<span>0</span>
 					<span>0</span>
 				</S.CountDownContainer>
-				<button type='submit'>
+				<S.StartCountdownButton type='submit'>
 					<Play />
 					Começar
-				</button>
-			</S.FormContainer>
+				</S.StartCountdownButton>
+			</form>
 		</S.HomeContainer>
 	);
 }

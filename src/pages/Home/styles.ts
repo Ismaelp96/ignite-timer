@@ -52,10 +52,13 @@ const BaseInput = styled.input`
 
 export const TaskInput = styled(BaseInput)`
 	flex: 1;
+	&::-webkit-calendar-picker-indicator {
+		display: none !important;
+	}
 `;
 export const TaskMinutesAmountInput = styled(BaseInput)`
 	width: 100%;
-	max-width: 7.2rem;
+	max-width: 6.6rem;
 `;
 
 export const CountDownContainer = styled.div`

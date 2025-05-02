@@ -7,18 +7,24 @@ import * as S from './styles';
 
 const newCycleFormValidationSchema = zod.object({
 	task: zod.string().min(1, 'Informe a tarefa'),
-	minutsAmout: zod
+	minutesAmount: zod
 		.number()
 		.min(5, 'O ciclo precisa ser de o minímo 5 minutos')
 		.max(60, 'O clico precisa ser no máximo 60 minutos'),
 });
 
+type newCycleFormData = zod.infer<typeof newCycleFormValidationSchema>;
+
 export function Home() {
-	const { register, handleSubmit, watch, formState } = useForm({
+	const { register, handleSubmit, watch } = useForm<newCycleFormData>({
 		resolver: zodResolver(newCycleFormValidationSchema),
+		defaultValues: {
+			task: '',
+			minutesAmount: 0,
+		},
 	});
 
-	function handleCreateNewCycle(data: any) {
+	function handleCreateNewCycle(data: newCycleFormData) {
 		console.log(data);
 	}
 

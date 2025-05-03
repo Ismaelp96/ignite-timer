@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
+import { differenceInSeconds } from 'date-fns';
 import zod from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { Play } from '@phosphor-icons/react';
-import { differenceInSeconds } from 'date-fns';
 
 import * as S from './styles';
 
@@ -39,14 +39,28 @@ export function Home() {
 
 	const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
+	const totalSeconds = activeCycle ? activeCycle.minutesAmout * 60 : 0;
+	const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
+
+	const minutesAmout = Math.floor(currentSeconds / 60);
+	const secondsAmount = currentSeconds % 60;
+
+	const minutes = String(minutesAmout).padStart(2, '0');
+	const seconds = String(secondsAmount).padStart(2, '0');
+
 	useEffect(() => {
+		let interval: number;
+
 		if (activeCycle) {
-			setInterval(() => {
+			interval = setInterval(() => {
 				setAmountSecondsPassed(
 					differenceInSeconds(new Date(), activeCycle.startDate),
 				);
 			}, 1000);
 		}
+		return () => {
+			clearInterval(interval);
+		};
 	}, [activeCycle]);
 
 	function handleCreateNewCycle(data: newCycleFormData) {
@@ -60,17 +74,15 @@ export function Home() {
 
 		setCycles((state) => [...state, newCycle]);
 		setActiveCycleId(id);
+		setAmountSecondsPassed(0);
 		reset();
 	}
 
-	const totalSeconds = activeCycle ? activeCycle.minutesAmout * 60 : 0;
-	const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
-
-	const minutesAmout = Math.floor(currentSeconds / 60);
-	const secondsAmount = currentSeconds % 60;
-
-	const minutes = String(minutesAmout).padStart(2, '0');
-	const seconds = String(secondsAmount).padStart(2, '0');
+	useEffect(() => {
+		if (activeCycle) {
+			document.title = `${minutes}:${seconds}`;
+		}
+	}, [minutes, seconds, activeCycle]);
 
 	const task = watch('task');
 	const isSubmitDisabled = !task;
@@ -108,7 +120,7 @@ export function Home() {
 					<span>{minutes[1]}</span>
 					<S.Seperator>:</S.Seperator>
 					<span>{seconds[0]}</span>
-					<span>{seconds[0]}</span>
+					<span>{seconds[1]}</span>
 				</S.CountDownContainer>
 				<S.StartCountdownButton type='submit' disabled={isSubmitDisabled}>
 					<Play />
